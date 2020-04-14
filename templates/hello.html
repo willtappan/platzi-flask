@@ -1,20 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 {% import 'macros.html' as macros%}
- {% block title %}
-    {{ super()}}
-    Bienvenido
-{% endblock  %}
+{% import 'bootstrap/wtf.html' as wtf %} 
+{% block title %} 
+{{ super()}}
+ Bienvenido
+{% endblock %} 
 
-{% block content %}
-    {% if user_ip %}
-        <h1>Hello William, tu IP es {{ user_ip }} </h1>
-    {% else %}
-        <h1> <a href="{{  url_for('index') }}"> Ir a inicio  </a> <h1/>
+{% block content %} 
+    {% if username %}
+        <h1> Bienvenido, {{ username | capitalize }} </h1>
     {% endif %}
+    {% if user_ip %}
+        <h1>Tu IP es {{ user_ip }} </h1>
+    {% else %}
+        <h1> <a href="{{ url_for('index') }}"> Ir a inicio  </a><h1/> 
+{% endif %}
+
+    <div class="container">
+        <!--<form action="{{ url_for('hello')}} " method="POST">
+            {{ login_form.username}} {{ login_form.username.label}}
+        </form> -->
+        {{ wtf.quick_form(login_form) }}
+    </div>
+
     <ul>
-        {% for todo in todos  %}
-            {{macros.render_todo(todo) }}
-        {% endfor %}
+        {% for todo in todos %} {{macros.render_todo(todo) }} {% endfor %}
     </ul>
 
-{% endblock %}
+    {% endblock %}

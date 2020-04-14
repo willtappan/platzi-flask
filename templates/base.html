@@ -3,7 +3,7 @@
     {{ super() }}
 
     <title>
-        {% block title%}FLASK Platzi| {% endblock %}
+        {% block title%}FLASK Platzi | {% endblock %}
     </title>
     <link rel="stylesheet" href="{{ url_for('static' , filename='css/main.css' ) }} ">
 {% endblock  head  %}
@@ -15,7 +15,18 @@
         {% include 'navbar.html' %}
     {% endblock navabar %}
 
-    {% block content %}
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-succes alert-dismissible"> 
+            <button type="button" 
+                    data-dismiss="alert"
+                    class="close"> &times;
+            </button>
+            {{ message}}
+        </div>
+    {% endfor %}
+
+    {% block content %}{% endblock  %}
+    {% block scripts %}
+        {{ super() }}
     {% endblock  %}
-    
 {% endblock%}
