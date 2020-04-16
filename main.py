@@ -57,3 +57,6 @@ def hello():
     return render_template('hello.html', **context)
 
 
+
+def prueba():
+    pass
