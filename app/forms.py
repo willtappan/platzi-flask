@@ -7,5 +7,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit =SubmitField('Enviar')
 
-    def gitprueba(self):
-        pass
+class TodoForm(FlaskForm):
+    description = StringField('Descripcion', validators=[DataRequired])
+    submit =SubmitField('Crear')
+
