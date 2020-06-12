@@ -1,18 +1,13 @@
 from flask import request, make_response , redirect, render_template, session, url_for, flash
 from flask_login import login_required, current_user
 
-
-
 import unittest
 from app import create_app
-from app.forms import LoginForm
-from app.firestore_service import get_users, get_todos
+from app.forms import TodoForm
+from app.firestore_service import get_users, get_todos, put_todo
 
 
 app = create_app()
-
-#todos = ['Comprar Cafe 1', 'Enviar solicitud de compra 2', 'Enviar Producto 3']
-
 
 @app.cli.command()
 def test():
@@ -28,32 +23,32 @@ def not_found(error):
 @app.route('/')
 def index():
     user_ip = request.remote_addr
-    
     response = make_response(redirect('/hello'))
-    #response.set_cookie('user_ip', user_ip)
     session['user_ip'] = user_ip
 
     return response
 
-@app.route('/hello', methods=['GET'])
+@app.route('/hello', methods=['GET', 'POST'])
 @login_required
 def hello(): 
-    
-    #user_ip = request.cookies.get('user_ip')
     user_ip = session.get('user_ip')
-    #login_form = LoginForm()
     username = current_user.id 
+    todo_form = TodoForm()
 
-    #return 'HelLo World Platzi , tu ip es {} '.format(user_ip)
     context  = {
             'user_ip':  user_ip,
             'todos' : get_todos(user_id=username),
-            #'login_form': login_form,
             'username': username,
+            'todo_form': todo_form
     }
 
+    if todo_form.validate_on_submit():
+        put_todo(user_id=username, description= todo_form.description.data)
 
-    
+
+        flash('Tu Tarea se creo con exito !')
+
+        return redirect(url_for('hello'))
 
 
     return render_template('hello.html', **context)

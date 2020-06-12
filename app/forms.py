@@ -8,6 +8,6 @@ class LoginForm(FlaskForm):
     submit =SubmitField('Enviar')
 
 class TodoForm(FlaskForm):
-    description = StringField('Descripcion', validators=[DataRequired])
-    submit =SubmitField('Crear')
+    description = StringField('Descripcion', validators=[DataRequired()])
+    submit = SubmitField('Crear')
 
